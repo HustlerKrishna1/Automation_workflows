@@ -1,0 +1,37 @@
+[
+    {
+        "result": "Of course! Please provide the text you'd like me to use as the basis for the Instagram caption, and I'll create a detailed and engaging caption for you.",
+        "id": "chatcmpl-ASHinmeWe35oWRusDGT2trOHE1XOQ",
+        "object": "chat.completion",
+        "created": "2024-11-11T05:57:49.000Z",
+        "model": "gpt-4o-mini-2024-07-18",
+        "choices": [
+            {
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": "Of course! Please provide the text you'd like me to use as the basis for the Instagram caption, and I'll create a detailed and engaging caption for you.",
+                    "refusal": null
+                },
+                "logprobs": null,
+                "finish_reason": "stop"
+            }
+        ],
+        "usage": {
+            "prompt_tokens": 25,
+            "completion_tokens": 31,
+            "total_tokens": 56,
+            "prompt_tokens_details": {
+                "cached_tokens": 0,
+                "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+                "reasoning_tokens": 0,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+            }
+        },
+        "system_fingerprint": "fp_0ba0d124f1"
+    }
+]
