@@ -71,3 +71,4 @@ All workflows are MIT Licensed – use freely in personal/commercial projects (c
 
 Need Help?
 Open an Issue or reach out on [Twitter/Email/Community Forum].
+Skool link:https://www.skool.com/@k-krishna-8890?g=ai-automation-society
