@@ -1,0 +1,975 @@
+{
+    "name": "Apify Intro",
+    "flow": [
+        {
+            "id": 1,
+            "module": "apify:runActor",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 1514003
+            },
+            "mapper": {
+                "actorId": "nwua9Gu5YrADL7ZDj",
+                "runSync": true,
+                "inputBody": "{    \"deeperCityScrape\": true,    \"includeWebResults\": false,    \"language\": \"en\",    \"locationQuery\": \"New York, United States\",    \"maxCrawledPlacesPerSearch\": 2,    \"maxImages\": 0,    \"maxReviews\": 0,    \"onlyDataFromSearchPage\": false,    \"scrapeDirectories\": false,    \"scrapeImageAuthors\": false,    \"scrapeResponseFromOwnerText\": true,    \"scrapeReviewId\": true,    \"scrapeReviewUrl\": true,    \"scrapeReviewerId\": true,    \"scrapeReviewerName\": true,    \"scrapeReviewerUrl\": true,    \"searchStringsArray\": [        \"lanscapers\"    ],    \"skipClosedPlaces\": false}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "memory": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "actorId": {
+                            "mode": "chose",
+                            "label": "compass/crawler-google-places"
+                        },
+                        "runSync": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "apify"
+                            },
+                            "label": "1"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:apify",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "actorId",
+                        "type": "select",
+                        "label": "Actor",
+                        "required": true
+                    },
+                    {
+                        "name": "runSync",
+                        "type": "boolean",
+                        "label": "Run synchronously",
+                        "required": true
+                    },
+                    {
+                        "name": "inputBody",
+                        "type": "text",
+                        "label": "Input JSON"
+                    },
+                    {
+                        "name": "build",
+                        "type": "text",
+                        "label": "Build"
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout"
+                    },
+                    {
+                        "name": "memory",
+                        "type": "select",
+                        "label": "Memory",
+                        "validate": {
+                            "enum": [
+                                128,
+                                256,
+                                512,
+                                1024,
+                                2048,
+                                4096,
+                                8192,
+                                16384,
+                                32768
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "apify:fetchDatasetItems",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 1514003
+            },
+            "mapper": {
+                "type": "clean",
+                "limit": "100",
+                "format": "json",
+                "datasetId": "{{1.defaultDatasetId}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Clean"
+                        },
+                        "format": {
+                            "mode": "chose",
+                            "label": "JSON"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "apify"
+                            },
+                            "label": "1"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:apify",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "datasetId",
+                        "type": "text",
+                        "label": "Dataset ID",
+                        "required": true
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Data transformation",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "clean",
+                                "simplified",
+                                "none"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "format",
+                        "type": "select",
+                        "label": "Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "json",
+                                "csv",
+                                "html",
+                                "xml",
+                                "rss",
+                                "xlsx"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "validate": {
+                            "max": 100000,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "type": "uinteger",
+                        "label": "Offset",
+                        "validate": {
+                            "min": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "apify:runActor",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 1514003
+            },
+            "mapper": {
+                "actorId": "9Sk4JJhEma9vBKqrg",
+                "runSync": true,
+                "inputBody": "{    \"considerChildFrames\": true,    \"maxDepth\": 2,    \"maxRequests\": 2,    \"sameDomain\": true,    \"startUrls\": [        {            \"url\": \"{{2.website}}\"        }    ]}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "memory": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "actorId": {
+                            "mode": "chose",
+                            "label": "vdrmota/contact-info-scraper"
+                        },
+                        "runSync": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "apify"
+                            },
+                            "label": "1"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:apify",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "actorId",
+                        "type": "select",
+                        "label": "Actor",
+                        "required": true
+                    },
+                    {
+                        "name": "runSync",
+                        "type": "boolean",
+                        "label": "Run synchronously",
+                        "required": true
+                    },
+                    {
+                        "name": "inputBody",
+                        "type": "text",
+                        "label": "Input JSON"
+                    },
+                    {
+                        "name": "build",
+                        "type": "text",
+                        "label": "Build"
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout"
+                    },
+                    {
+                        "name": "memory",
+                        "type": "select",
+                        "label": "Memory",
+                        "validate": {
+                            "enum": [
+                                128,
+                                256,
+                                512,
+                                1024,
+                                2048,
+                                4096,
+                                8192,
+                                16384,
+                                32768
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "apify:fetchDatasetItems",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 1514003
+            },
+            "mapper": {
+                "type": "clean",
+                "limit": "100",
+                "format": "json",
+                "datasetId": "{{3.defaultDatasetId}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Clean"
+                        },
+                        "format": {
+                            "mode": "chose",
+                            "label": "JSON"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "apify"
+                            },
+                            "label": "1"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:apify",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "datasetId",
+                        "type": "text",
+                        "label": "Dataset ID",
+                        "required": true
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Data transformation",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "clean",
+                                "simplified",
+                                "none"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "format",
+                        "type": "select",
+                        "label": "Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "json",
+                                "csv",
+                                "html",
+                                "xml",
+                                "rss",
+                                "xlsx"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "validate": {
+                            "max": 100000,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "type": "uinteger",
+                        "label": "Offset",
+                        "validate": {
+                            "min": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "module": "builtin:BasicAggregator",
+            "version": 1,
+            "parameters": {
+                "feeder": 4
+            },
+            "mapper": {
+                "id": "{{1.id}}",
+                "cid": "{{2.cid}}",
+                "fid": "{{2.fid}}",
+                "url": "{{2.url}}",
+                "city": "{{2.city}}",
+                "menu": "{{2.menu}}",
+                "meta": "{{1.meta}}",
+                "rank": "{{2.rank}}",
+                "actId": "{{1.actId}}",
+                "depth": "{{4.depth}}",
+                "phone": "{{2.phone}}",
+                "price": "{{2.price}}",
+                "state": "{{2.state}}",
+                "stats": "{{1.stats}}",
+                "title": "{{2.title}}",
+                "usage": "{{1.usage}}",
+                "domain": "{{4.domain}}",
+                "emails": "{{4.emails}}",
+                "images": "{{2.images}}",
+                "phones": "{{4.phones}}",
+                "status": "{{1.status}}",
+                "street": "{{2.street}}",
+                "userId": "{{1.userId}}",
+                "address": "{{2.address}}",
+                "buildId": "{{1.buildId}}",
+                "options": "{{1.options}}",
+                "orderBy": "{{2.orderBy}}",
+                "placeId": "{{2.placeId}}",
+                "reviews": "{{2.reviews}}",
+                "tiktoks": "{{4.tiktoks}}",
+                "website": "{{2.website}}",
+                "discords": "{{4.discords}}",
+                "exitCode": "{{1.exitCode}}",
+                "hotelAds": "{{2.hotelAds}}",
+                "location": "{{2.location}}",
+                "plusCode": "{{2.plusCode}}",
+                "subTitle": "{{2.subTitle}}",
+                "twitters": "{{4.twitters}}",
+                "usageUsd": "{{1.usageUsd}}",
+                "youtubes": "{{4.youtubes}}",
+                "facebooks": "{{4.facebooks}}",
+                "gasPrices": "{{2.gasPrices}}",
+                "imageUrls": "{{2.imageUrls}}",
+                "linkedIns": "{{4.linkedIns}}",
+                "locatedIn": "{{2.locatedIn}}",
+                "scrapedAt": "{{2.scrapedAt}}",
+                "startedAt": "{{1.startedAt}}",
+                "categories": "{{2.categories}}",
+                "finishedAt": "{{1.finishedAt}}",
+                "hotelStars": "{{2.hotelStars}}",
+                "instagrams": "{{4.instagrams}}",
+                "pinterests": "{{4.pinterests}}",
+                "placesTags": "{{2.placesTags}}",
+                "postalCode": "{{2.postalCode}}",
+                "totalScore": "{{2.totalScore}}",
+                "webResults": "{{2.webResults}}",
+                "buildNumber": "{{1.buildNumber}}",
+                "checkInDate": "{{2.checkInDate}}",
+                "countryCode": "{{2.countryCode}}",
+                "description": "{{2.description}}",
+                "imagesCount": "{{2.imagesCount}}",
+                "referrerUrl": "{{4.referrerUrl}}",
+                "reviewsTags": "{{2.reviewsTags}}",
+                "__IMTINDEX__": "{{2.`__IMTINDEX__`}}",
+                "bookingLinks": "{{2.bookingLinks}}",
+                "categoryName": "{{2.categoryName}}",
+                "checkOutDate": "{{2.checkOutDate}}",
+                "containerUrl": "{{1.containerUrl}}",
+                "neighborhood": "{{2.neighborhood}}",
+                "openingHours": "{{2.openingHours}}",
+                "reviewsCount": "{{2.reviewsCount}}",
+                "searchString": "{{2.searchString}}",
+                "__IMTLENGTH__": "{{2.`__IMTLENGTH__`}}",
+                "googleFoodUrl": "{{2.googleFoodUrl}}",
+                "searchPageUrl": "{{2.searchPageUrl}}",
+                "statusMessage": "{{1.statusMessage}}",
+                "usageTotalUsd": "{{1.usageTotalUsd}}",
+                "additionalInfo": "{{2.additionalInfo}}",
+                "parentPlaceUrl": "{{2.parentPlaceUrl}}",
+                "imageCategories": "{{2.imageCategories}}",
+                "isAdvertisement": "{{2.isAdvertisement}}",
+                "phonesUncertain": "{{4.phonesUncertain}}",
+                "reserveTableUrl": "{{2.reserveTableUrl}}",
+                "defaultDatasetId": "{{1.defaultDatasetId}}",
+                "hotelDescription": "{{2.hotelDescription}}",
+                "originalStartUrl": "{{4.originalStartUrl}}",
+                "peopleAlsoSearch": "{{2.peopleAlsoSearch}}",
+                "phoneUnformatted": "{{2.phoneUnformatted}}",
+                "claimThisBusiness": "{{2.claimThisBusiness}}",
+                "permanentlyClosed": "{{2.permanentlyClosed}}",
+                "temporarilyClosed": "{{2.temporarilyClosed}}",
+                "hotelReviewSummary": "{{2.hotelReviewSummary}}",
+                "questionsAndAnswers": "{{2.questionsAndAnswers}}",
+                "reviewsDistribution": "{{2.reviewsDistribution}}",
+                "searchPageLoadedUrl": "{{2.searchPageLoadedUrl}}",
+                "similarHotelsNearby": "{{2.similarHotelsNearby}}",
+                "updatesFromCustomers": "{{2.updatesFromCustomers}}",
+                "defaultRequestQueueId": "{{1.defaultRequestQueueId}}",
+                "tableReservationLinks": "{{2.tableReservationLinks}}",
+                "defaultKeyValueStoreId": "{{1.defaultKeyValueStoreId}}",
+                "isStatusMessageTerminal": "{{1.isStatusMessageTerminal}}",
+                "createdByOrganizationMemberUserId": "{{1.createdByOrganizationMemberUserId}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0
+                },
+                "restore": {
+                    "extra": {
+                        "feeder": {
+                            "label": "Apify - Get Dataset Items [4]"
+                        },
+                        "target": {
+                            "label": "Custom"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "id": 5,
+            "module": "google-sheets:addRow",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3193914
+            },
+            "mapper": {
+                "mode": "fromAll",
+                "values": {
+                    "0": "{{6.array[].domain}}",
+                    "1": "{{6.array[].phonesUncertain}}",
+                    "2": "{{6.array[].emails}}",
+                    "3": "{{6.array[].tiktoks}}",
+                    "4": "{{6.array[].instagrams}}",
+                    "5": "{{6.array[].facebooks}}",
+                    "6": "{{6.array[].youtubes}}",
+                    "7": "{{6.array[].linkedIns}}",
+                    "8": "{{6.array[].twitters}}",
+                    "9": "{{6.array[].pinterests}}"
+                },
+                "sheetId": "Sheet1",
+                "spreadsheetId": "14G0QNLtlZiwYPImTzATjLGoTSzYPzNpPG3C4g0BoXcU",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "valueInputOption": "USER_ENTERED",
+                "insertUnformatted": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "mode": {
+                            "label": "Select from all"
+                        },
+                        "sheetId": {
+                            "mode": "chose",
+                            "label": "Sheet1"
+                        },
+                        "includesHeaders": {
+                            "label": "Yes",
+                            "nested": [
+                                {
+                                    "name": "values",
+                                    "spec": [
+                                        {
+                                            "name": "0",
+                                            "type": "text",
+                                            "label": "Website (A)"
+                                        },
+                                        {
+                                            "name": "1",
+                                            "type": "text",
+                                            "label": "Phone (B)"
+                                        },
+                                        {
+                                            "name": "2",
+                                            "type": "text",
+                                            "label": "Email (C)"
+                                        },
+                                        {
+                                            "name": "3",
+                                            "type": "text",
+                                            "label": "Tiktok (D)"
+                                        },
+                                        {
+                                            "name": "4",
+                                            "type": "text",
+                                            "label": "Instagram (E)"
+                                        },
+                                        {
+                                            "name": "5",
+                                            "type": "text",
+                                            "label": "Facebook (F)"
+                                        },
+                                        {
+                                            "name": "6",
+                                            "type": "text",
+                                            "label": "YouTube (G)"
+                                        },
+                                        {
+                                            "name": "7",
+                                            "type": "text",
+                                            "label": "Linkedin (H)"
+                                        },
+                                        {
+                                            "name": "8",
+                                            "type": "text",
+                                            "label": "(I)"
+                                        },
+                                        {
+                                            "name": "9",
+                                            "type": "text",
+                                            "label": "(J)"
+                                        },
+                                        {
+                                            "name": "10",
+                                            "type": "text",
+                                            "label": "(K)"
+                                        },
+                                        {
+                                            "name": "11",
+                                            "type": "text",
+                                            "label": "(L)"
+                                        },
+                                        {
+                                            "name": "12",
+                                            "type": "text",
+                                            "label": "(M)"
+                                        },
+                                        {
+                                            "name": "13",
+                                            "type": "text",
+                                            "label": "(N)"
+                                        },
+                                        {
+                                            "name": "14",
+                                            "type": "text",
+                                            "label": "(O)"
+                                        },
+                                        {
+                                            "name": "15",
+                                            "type": "text",
+                                            "label": "(P)"
+                                        },
+                                        {
+                                            "name": "16",
+                                            "type": "text",
+                                            "label": "(Q)"
+                                        },
+                                        {
+                                            "name": "17",
+                                            "type": "text",
+                                            "label": "(R)"
+                                        },
+                                        {
+                                            "name": "18",
+                                            "type": "text",
+                                            "label": "(S)"
+                                        },
+                                        {
+                                            "name": "19",
+                                            "type": "text",
+                                            "label": "(T)"
+                                        },
+                                        {
+                                            "name": "20",
+                                            "type": "text",
+                                            "label": "(U)"
+                                        },
+                                        {
+                                            "name": "21",
+                                            "type": "text",
+                                            "label": "(V)"
+                                        },
+                                        {
+                                            "name": "22",
+                                            "type": "text",
+                                            "label": "(W)"
+                                        },
+                                        {
+                                            "name": "23",
+                                            "type": "text",
+                                            "label": "(X)"
+                                        },
+                                        {
+                                            "name": "24",
+                                            "type": "text",
+                                            "label": "(Y)"
+                                        },
+                                        {
+                                            "name": "25",
+                                            "type": "text",
+                                            "label": "(Z)"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Values"
+                                }
+                            ]
+                        },
+                        "insertDataOption": {
+                            "mode": "chose",
+                            "label": "Insert rows"
+                        },
+                        "valueInputOption": {
+                            "mode": "chose",
+                            "label": "User entered"
+                        },
+                        "insertUnformatted": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google"
+                            },
+                            "label": "My Google connection (jccatliff@gmail.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "mode",
+                        "type": "select",
+                        "label": "Search Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "select",
+                                "fromAll",
+                                "map"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "insertUnformatted",
+                        "type": "boolean",
+                        "label": "Unformatted",
+                        "required": true
+                    },
+                    {
+                        "name": "valueInputOption",
+                        "type": "select",
+                        "label": "Value input option",
+                        "validate": {
+                            "enum": [
+                                "USER_ENTERED",
+                                "RAW"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "insertDataOption",
+                        "type": "select",
+                        "label": "Insert data option",
+                        "validate": {
+                            "enum": [
+                                "INSERT_ROWS",
+                                "OVERWRITE"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "spreadsheetId",
+                        "type": "text",
+                        "label": "Spreadsheet ID",
+                        "required": true
+                    },
+                    {
+                        "name": "sheetId",
+                        "type": "select",
+                        "label": "Sheet Name",
+                        "required": true
+                    },
+                    {
+                        "name": "includesHeaders",
+                        "type": "select",
+                        "label": "Table contains headers",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    },
+                    {
+                        "name": "values",
+                        "spec": [
+                            {
+                                "name": "0",
+                                "type": "text",
+                                "label": "Website (A)"
+                            },
+                            {
+                                "name": "1",
+                                "type": "text",
+                                "label": "Phone (B)"
+                            },
+                            {
+                                "name": "2",
+                                "type": "text",
+                                "label": "Email (C)"
+                            },
+                            {
+                                "name": "3",
+                                "type": "text",
+                                "label": "Tiktok (D)"
+                            },
+                            {
+                                "name": "4",
+                                "type": "text",
+                                "label": "Instagram (E)"
+                            },
+                            {
+                                "name": "5",
+                                "type": "text",
+                                "label": "Facebook (F)"
+                            },
+                            {
+                                "name": "6",
+                                "type": "text",
+                                "label": "YouTube (G)"
+                            },
+                            {
+                                "name": "7",
+                                "type": "text",
+                                "label": "Linkedin (H)"
+                            },
+                            {
+                                "name": "8",
+                                "type": "text",
+                                "label": "(I)"
+                            },
+                            {
+                                "name": "9",
+                                "type": "text",
+                                "label": "(J)"
+                            },
+                            {
+                                "name": "10",
+                                "type": "text",
+                                "label": "(K)"
+                            },
+                            {
+                                "name": "11",
+                                "type": "text",
+                                "label": "(L)"
+                            },
+                            {
+                                "name": "12",
+                                "type": "text",
+                                "label": "(M)"
+                            },
+                            {
+                                "name": "13",
+                                "type": "text",
+                                "label": "(N)"
+                            },
+                            {
+                                "name": "14",
+                                "type": "text",
+                                "label": "(O)"
+                            },
+                            {
+                                "name": "15",
+                                "type": "text",
+                                "label": "(P)"
+                            },
+                            {
+                                "name": "16",
+                                "type": "text",
+                                "label": "(Q)"
+                            },
+                            {
+                                "name": "17",
+                                "type": "text",
+                                "label": "(R)"
+                            },
+                            {
+                                "name": "18",
+                                "type": "text",
+                                "label": "(S)"
+                            },
+                            {
+                                "name": "19",
+                                "type": "text",
+                                "label": "(T)"
+                            },
+                            {
+                                "name": "20",
+                                "type": "text",
+                                "label": "(U)"
+                            },
+                            {
+                                "name": "21",
+                                "type": "text",
+                                "label": "(V)"
+                            },
+                            {
+                                "name": "22",
+                                "type": "text",
+                                "label": "(W)"
+                            },
+                            {
+                                "name": "23",
+                                "type": "text",
+                                "label": "(X)"
+                            },
+                            {
+                                "name": "24",
+                                "type": "text",
+                                "label": "(Y)"
+                            },
+                            {
+                                "name": "25",
+                                "type": "text",
+                                "label": "(Z)"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Values"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com"
+    }
+}
