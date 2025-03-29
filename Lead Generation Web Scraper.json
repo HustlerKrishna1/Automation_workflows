@@ -1,0 +1,305 @@
+{
+    "name": "Generate Lead [Web Scraper]",
+    "flow": [
+        {
+            "id": 2,
+            "module": "util:SetVariable2",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "name": "Search Term",
+                "scope": "roundtrip",
+                "value": "landscapers toronto"
+            },
+            "metadata": {
+                "designer": {
+                    "x": -289,
+                    "y": 4
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "type": "any",
+                        "label": "Variable value"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "Search Term",
+                        "type": "any",
+                        "label": "Search Term"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "module": "apify:runActor",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3193870
+            },
+            "mapper": {
+                "actorId": "nwua9Gu5YrADL7ZDj",
+                "runSync": true,
+                "inputBody": "{    \"deeperCityScrape\": false,    \"includeWebResults\": false,    \"language\": \"en\",    \"locationQuery\": \"Toronto Canada\",    \"maxCrawledPlacesPerSearch\": 2,    \"maxImages\": 1,    \"maxQuestions\": 0,    \"maxReviews\": 0,    \"onlyDataFromSearchPage\": false,    \"scrapeDirectories\": false,    \"scrapeImageAuthors\": false,    \"scrapeResponseFromOwnerText\": true,    \"scrapeReviewId\": true,    \"scrapeReviewUrl\": true,    \"scrapeReviewerId\": true,    \"scrapeReviewerName\": true,    \"scrapeReviewerUrl\": true,    \"searchStringsArray\": [        \"{{2.`Search Term`}}\"    ],    \"skipClosedPlaces\": false}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2,
+                    "y": 7
+                },
+                "restore": {
+                    "expect": {
+                        "memory": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "actorId": {
+                            "mode": "chose",
+                            "label": "compass/crawler-google-places"
+                        },
+                        "runSync": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "apify"
+                            },
+                            "label": "2"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:apify",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "actorId",
+                        "type": "select",
+                        "label": "Actor",
+                        "required": true
+                    },
+                    {
+                        "name": "runSync",
+                        "type": "boolean",
+                        "label": "Run synchronously",
+                        "required": true
+                    },
+                    {
+                        "name": "inputBody",
+                        "type": "text",
+                        "label": "Input JSON"
+                    },
+                    {
+                        "name": "build",
+                        "type": "text",
+                        "label": "Build"
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout"
+                    },
+                    {
+                        "name": "memory",
+                        "type": "select",
+                        "label": "Memory",
+                        "validate": {
+                            "enum": [
+                                128,
+                                256,
+                                512,
+                                1024,
+                                2048,
+                                4096,
+                                8192,
+                                16384,
+                                32768
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "util:FunctionSleep",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "duration": "30"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 302,
+                    "y": 7
+                },
+                "restore": {},
+                "expect": [
+                    {
+                        "name": "duration",
+                        "type": "uinteger",
+                        "label": "Delay",
+                        "required": true,
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "apify:runActor",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3193870
+            },
+            "mapper": {
+                "actorId": "WnMxbsRLNbPeYL6ge",
+                "runSync": true,
+                "inputBody": "{    \"googleMapsDatasetId\": \"{{1.defaultDatasetId}}\",    \"maxRequestsPerStartUrl\": 10,    \"proxyConfig\": {        \"useApifyProxy\": true    }}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 602,
+                    "y": 7
+                },
+                "restore": {
+                    "expect": {
+                        "memory": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "actorId": {
+                            "mode": "chose",
+                            "label": "lukaskrivka/google-maps-with-contact-details"
+                        },
+                        "runSync": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "apify"
+                            },
+                            "label": "2"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:apify",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "actorId",
+                        "type": "select",
+                        "label": "Actor",
+                        "required": true
+                    },
+                    {
+                        "name": "runSync",
+                        "type": "boolean",
+                        "label": "Run synchronously",
+                        "required": true
+                    },
+                    {
+                        "name": "inputBody",
+                        "type": "text",
+                        "label": "Input JSON"
+                    },
+                    {
+                        "name": "build",
+                        "type": "text",
+                        "label": "Build"
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout"
+                    },
+                    {
+                        "name": "memory",
+                        "type": "select",
+                        "label": "Memory",
+                        "validate": {
+                            "enum": [
+                                128,
+                                256,
+                                512,
+                                1024,
+                                2048,
+                                4096,
+                                8192,
+                                16384,
+                                32768
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com"
+    }
+}
